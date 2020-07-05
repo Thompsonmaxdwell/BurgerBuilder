@@ -18,7 +18,6 @@
       transformIngredients = <p>Please Start adding Ingredients!</p>
 
    }   
- console.log(transformIngredients)
 
      return ( 
          <div className={classes.Burger}>
