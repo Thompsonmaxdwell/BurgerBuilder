@@ -24,7 +24,7 @@
             <BurgerIngredient type="bread-top"/>
               {transformIngredients}
             <BurgerIngredient type="bread-bottom"/>
-
+ 
          </div>
       );
  }
