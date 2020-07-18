@@ -9,7 +9,7 @@ const withErrorHandler = (WrapperComponet, axios) => {
             error :null,
         }
 
-        componentWillMount () {
+     componentWillMount () {
             axios.interceptors.request.use(req=>{
                   this.setState({error: null});
                   return req
@@ -17,15 +17,21 @@ const withErrorHandler = (WrapperComponet, axios) => {
 
             axios.interceptors.response.use(res => res, error =>{
                 this.setState({error: error});
-                console.log(error)
+           
 
              })
          }
             
-            errorConfimeHandler = ()=>{
+            errorConfimeHandler = () =>{
                 this.setState({error : null})
+                console.log('hello')
             
             }
+
+            componentDidUpdate () {
+                console.log('[OrderSumerrorConfimeHandlermary ] errorConfimeHandler')
+              }
+            
 
         render() {
 
@@ -36,7 +42,6 @@ const withErrorHandler = (WrapperComponet, axios) => {
                      modalClosed={this.errorConfimeHandle}>
                      { this.state.error ? this.state.error.message : null}
               
-                    
                    </Modal>
                   <WrapperComponet {...this.props}/>               
                 </Aux>
