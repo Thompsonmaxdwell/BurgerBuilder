@@ -8,10 +8,6 @@ import axios from '../../axios-order';
 import Spinner from '../../components/Ul/Spinner/Spinner';
 import WithErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-
-
-
-
 const INGREDIENT_PRICE  = {
     salad :0.5,
     bacon: 0.4,
@@ -42,7 +38,7 @@ class BurgerBuild extends Component {
              
             })
    }
-     updatePurchasaState = (ingredients) =>{
+     updatePurchasaState = (ingredients) =>{ 
          const sum = Object.keys(ingredients)
              .map(igKey =>{
                  return ingredients[igKey];
@@ -99,30 +95,20 @@ class BurgerBuild extends Component {
  } 
  
  purchaseContinueHandler =() =>{
-     this.setState({loading :true})
-     let order = {
-         ingredients: this.state.ingredients,
-         price : this.state.totalPrice,
-         customer : {
-             name :'Thompson Onyenichie',
-             email: 'oghenefokethompson@gmail.com',
-             address: {
-                 street:'Atani',
-                 zipCode :'234',
-                 country : 'Nigeria'
-             },
-             deliveryMethod:'Fastest'
-         }
-     }
-    axios.post('/order.json', order)
-         .then(response =>{
-             console.log(response) 
-              this.setState({loading :false, purchasing: false})
-            })
-         .catch(error   =>{
-             console.log(error)
-             this.setState({loading :false,  purchasing: false})
-            });
+     const queryParams = [];
+
+     for(let i in this.state.ingredients){
+         queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+        }
+
+        queryParams.push('price=' + this.state.totalPrice)
+     const queryString = queryParams.join('&')
+    
+    this.props.history.push({
+         pathname :'/checkout',
+         search: '?' + queryString,
+        });
+   
  }
 
     render() { 
@@ -132,7 +118,7 @@ class BurgerBuild extends Component {
          }
 
     let orderSummary = null;
-    let burger = this.state.error ? <p style={{textAlign:'center', padding:'20px'}}><strong>Ingredients Can't be Loaded Due to Server Or {this.state.error}</strong></p> : <Spinner/>
+    let burger = this.state.error ? <p style={{textAlign:'center', padding:'20px'}}><strong>Ingredients Can't be Loaded Due to Server Or  Network Problem</strong></p> : <Spinner/>
 
    
     if(this.state.ingredients){
